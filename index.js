@@ -21,7 +21,7 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://mhallrp.github.io",
+  origin: "https://matthall.london",
   credentials: true,
 }));
 
