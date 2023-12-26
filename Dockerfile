@@ -17,7 +17,7 @@ WORKDIR /usr/src/app
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Download dependencies as a separate step to take advantage of Docker's caching.
 COPY package.json package-lock.json ./
-RUN --mount=type=cache,target=/root/.npm \
+RUN --mount=type=cache,target=/root/.npm,id=npm_cache \
     npm ci --omit=dev
 
 # Run the application as a non-root user.
