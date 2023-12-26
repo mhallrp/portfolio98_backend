@@ -5,10 +5,10 @@ const cors = require('cors');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const port = 3001;
-
-
 const app = express();
+
 app.use(express.json());
+
 app.use(session({
   secret: 'your_secret_key',
   resave: true,
@@ -48,14 +48,4 @@ app.use("/", function auth(req, res, next) {
 });
 app.use("/quiz", quizRoutes);
 
-//HTTPS LOCAL KEY
-// const https = require('https');
-// const fs = require('fs');
-// const sslServer = https.createServer({
-//   key: fs.readFileSync('./localhost-key.pem'),
-//   cert: fs.readFileSync('./localhost.pem')
-// }, app);
-
 app.listen(port)
-
-// sslServer.listen(port, () => console.log(`HTTPS Server running on port ${port}`));
