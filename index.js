@@ -31,6 +31,7 @@ app.use("/user", userRoutes);
 //USER AUTHENTICATION AND SUBSEQUENT QUIZ LOGIN
 app.use("/", function auth(req, res, next) {
   res.set('Cache-Control', 'no-store');
+  console.log("something")
   if (req.session.authorization) {
     let token = req.session.authorization['accessToken'];
     jwt.verify(token, 'access', (err, user) => {
@@ -51,6 +52,7 @@ app.use("/quiz", quizRoutes);
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
+  res.console.log("hello world")
 });
 
 server.listen(PORT, () => {
