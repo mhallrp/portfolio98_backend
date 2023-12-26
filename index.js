@@ -20,7 +20,7 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://localhost:3000",
+  origin: "https://mhallrp.github.io",
   credentials: true,
 }));
 
