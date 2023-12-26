@@ -20,7 +20,7 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://mhallrp.github.io",
+  origin: "https://mhallrp.github.io/*",
   credentials: true,
 }));
 
