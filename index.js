@@ -26,28 +26,28 @@ app.use(cors({
 }));
 
 //PUBLIC USER ROUTES TO ALLOW LOGIN
-app.use("/user", userRoutes);
+// app.use("/user", userRoutes);
 
-//USER AUTHENTICATION AND SUBSEQUENT QUIZ LOGIN
-app.use("/", function auth(req, res, next) {
-  res.set('Cache-Control', 'no-store');
-  if (req.session.authorization) {
-    let token = req.session.authorization['accessToken'];
-    jwt.verify(token, 'access', (err, user) => {
-      if (!err) {
-        req.user = user;
-        next();
-      } else {
-        console.log('JWT Verification Error:', err);
-        return res.status(403).json({ message: "User not authenticated" });
-      }
-    });
-  } else {
-    console.log('No authorization token found in session');
-    return res.status(403).json({ message: "User not logged in" });
-  }
-});
-app.use("/quiz", quizRoutes);
+// //USER AUTHENTICATION AND SUBSEQUENT QUIZ LOGIN
+// app.use("/", function auth(req, res, next) {
+//   res.set('Cache-Control', 'no-store');
+//   if (req.session.authorization) {
+//     let token = req.session.authorization['accessToken'];
+//     jwt.verify(token, 'access', (err, user) => {
+//       if (!err) {
+//         req.user = user;
+//         next();
+//       } else {
+//         console.log('JWT Verification Error:', err);
+//         return res.status(403).json({ message: "User not authenticated" });
+//       }
+//     });
+//   } else {
+//     console.log('No authorization token found in session');
+//     return res.status(403).json({ message: "User not logged in" });
+//   }
+// });
+// app.use("/quiz", quizRoutes);
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
