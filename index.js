@@ -5,7 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 const http = require('http');
 const jwt = require('jsonwebtoken');
-const port = 3000;
+const PORT = 3000;
 const app = express();
 
 app.use(express.json());
