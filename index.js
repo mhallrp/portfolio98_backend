@@ -20,8 +20,7 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://mhallrp.github.io/*",
-  credentials: true,
+  origin: "https://mhallrp.github.io"
 }));
 
 //PUBLIC USER ROUTES TO ALLOW LOGIN
