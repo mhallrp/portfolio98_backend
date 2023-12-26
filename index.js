@@ -52,7 +52,8 @@ app.use("/quiz", quizRoutes);
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
-  res.console.log("hello world")
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World!');
 });
 
 server.listen(PORT, () => {
