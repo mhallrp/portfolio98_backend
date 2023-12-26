@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-const port = 3001;
+const port = 3000;
 const app = express();
 
 app.use(express.json());
@@ -20,7 +20,8 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://mhallrp.github.io"
+  origin: "https://mhallrp.github.io",
+  credentials: true,
 }));
 
 //PUBLIC USER ROUTES TO ALLOW LOGIN
@@ -47,4 +48,12 @@ app.use("/", function auth(req, res, next) {
 });
 app.use("/quiz", quizRoutes);
 
-app.listen(port)
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World!');
+});
+
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
+});
