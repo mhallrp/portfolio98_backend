@@ -40,7 +40,7 @@ app.use("/", function auth(req, res, next) {
         next();
       } else {
         console.log('JWT Verification Error:', err);
-        return res.status(403).json({ message: "User not authenticated" });
+        return res.send('Hello World!');
       }
     });
   } else {
