@@ -21,7 +21,7 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://matthall.london",
+  origin: "https://www.matthall.london",
   credentials: true,
 }));
 
