@@ -49,10 +49,13 @@ app.use("/", function auth(req, res, next) {
 app.use("/quiz", quizRoutes);
 
 //HTTPS LOCAL KEY
-const https = require('https');
-const fs = require('fs');
-const sslServer = https.createServer({
-  key: fs.readFileSync('./localhost-key.pem'),
-  cert: fs.readFileSync('./localhost.pem')
-}, app);
-sslServer.listen(port, () => console.log(`HTTPS Server running on port ${port}`));
+// const https = require('https');
+// const fs = require('fs');
+// const sslServer = https.createServer({
+//   key: fs.readFileSync('./localhost-key.pem'),
+//   cert: fs.readFileSync('./localhost.pem')
+// }, app);
+
+app.listen(port)
+
+// sslServer.listen(port, () => console.log(`HTTPS Server running on port ${port}`));
