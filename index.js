@@ -5,7 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 const http = require('http');
 const jwt = require('jsonwebtoken');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(session({
   }
 }));
 app.use(cors({
-  origin: "https://mhallrp.github.io",
+  origin: "*",
   credentials: true,
 }));
 
@@ -48,14 +48,13 @@ app.use("/", function auth(req, res, next) {
     return res.status(403).json({ message: "User not logged in" });
   }
 });
+
 app.use("/quiz", quizRoutes);
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World!');
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
