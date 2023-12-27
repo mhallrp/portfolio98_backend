@@ -17,7 +17,6 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: 'none',
-    secure: true,
   }
 }));
 app.use(cors({
