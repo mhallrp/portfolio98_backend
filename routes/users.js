@@ -23,7 +23,7 @@ router.post("/login", (req, res) => {
     if (filtered.length < 1) { 
         return res.status(401).json({ message: false }) 
     }
-    let accessToken = jwt.sign({ data: user }, 'access', { expiresIn: 60 * 60 });
+    let accessToken = jwt.sign({ data: user }, 'access', { expiresIn: 60 * 60 * 60 });
     req.session.authorization = { accessToken:accessToken };
     console.log('Session after setting JWT:', req.session.authorization['accessToken']);
     return res.status(200).json({ message: true });
