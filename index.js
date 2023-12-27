@@ -25,15 +25,18 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use("/", function auth(req, res, next) {
+  var origin = req.get('origin');
+  if (origin != "https://quiz.matt-hall.dev"){
+  return res.redirect("https://matt-hall.dev")
+  } else {
+    next()
+  }
+})
+
 app.use("/user", userRoutes);
 
 app.use("/", function auth(req, res, next) {
-  var origin = req.get('origin');
-
-  console.log("this is origin " + origin)
-  if (origin != "https://quiz.matt-hall.dev"){
-  return res.redirect("https://matt-hall.dev")
-  }
   res.set('Cache-Control', 'no-store');
   if (req.session.authorization) {
     let token = req.session.authorization['accessToken'];
