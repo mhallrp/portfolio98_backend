@@ -19,16 +19,17 @@ app.use(session({
     sameSite: 'strict',
   }
 }));
+
 app.use(cors({
   origin: "https://quiz.matt-hall.dev",
   credentials: true,
 }));
 
-// PUBLIC USER ROUTES TO ALLOW LOGIN
 app.use("/user", userRoutes);
 
-//USER AUTHENTICATION AND SUBSEQUENT QUIZ LOGIN
 app.use("/", function auth(req, res, next) {
+  var origin = req.get('origin');
+  console.log("this is origin " + origin)
   res.set('Cache-Control', 'no-store');
   if (req.session.authorization) {
     let token = req.session.authorization['accessToken'];
@@ -49,6 +50,4 @@ app.use("/", function auth(req, res, next) {
 
 app.use("/quiz", quizRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT);
