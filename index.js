@@ -13,6 +13,7 @@ app.use(helmet());
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
+  proxy: true,
   resave: true,
   saveUninitialized: true,
   cookie: {
