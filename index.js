@@ -6,8 +6,11 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const app = express();
 const helmet = require('helmet');
+
 app.use(express.json());
+
 app.use(helmet());
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -15,12 +18,15 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: 'strict',
+    secure:true
   }
 }));
+
 app.use(cors({
   origin: "https://quiz.matt-hall.dev",
   credentials: true,
 }));
+
 app.use("/", function auth(req, res, next) {
   const origin = req.get('origin');
   if (origin != "https://quiz.matt-hall.dev"){
@@ -29,7 +35,9 @@ app.use("/", function auth(req, res, next) {
     next()
   }
 })
+
 app.use("/user", userRoutes);
+
 app.use("/", function auth(req, res, next) {
   res.set('Cache-Control', 'no-store');
   if (req.session.authorization) {
@@ -39,14 +47,14 @@ app.use("/", function auth(req, res, next) {
         req.user = user;
         next();
       } else {
-        console.log('JWT Verification Error:', err);
         return res.send('Error');
       }
     });
   } else {
-    console.log('No authorization token found in session');
     return res.status(403).json({ message: "User not logged in" });
   }
 });
+
 app.use("/quiz", quizRoutes);
+
 app.listen(process.env.PORT);
