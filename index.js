@@ -5,7 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 
 const jwt = require('jsonwebtoken');
-const PORT = process.env.PORT;
+
 const app = express();
 
 app.use(express.json());
@@ -57,4 +57,4 @@ app.use("/", function auth(req, res, next) {
 
 app.use("/quiz", quizRoutes);
 
-app.listen(PORT);
+app.listen(process.env.PORT);
