@@ -31,7 +31,6 @@ app.use("/user", userRoutes);
 //USER AUTHENTICATION AND SUBSEQUENT QUIZ LOGIN
 app.use("/", function auth(req, res, next) {
   res.set('Cache-Control', 'no-store');
-  console.log("something")
   if (req.session.authorization) {
     let token = req.session.authorization['accessToken'];
     jwt.verify(token, 'access', (err, user) => {
