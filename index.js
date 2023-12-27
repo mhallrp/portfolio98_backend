@@ -3,9 +3,9 @@ const quizRoutes = require('./routes/quiz');
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
-const http = require('http');
+
 const jwt = require('jsonwebtoken');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json());
