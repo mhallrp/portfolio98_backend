@@ -57,6 +57,4 @@ app.use("/", function auth(req, res, next) {
   }
 });
 
-
-
 app.listen(process.env.PORT);
