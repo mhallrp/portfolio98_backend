@@ -39,6 +39,21 @@ app.use("/", function auth(req, res, next) {
 
 app.use("/user", userRoutes);
 
+app.get("/check", (req, res) => {
+  if (req.session.authorization) {
+    let token = req.session.authorization['accessToken'];
+    jwt.verify(token, process.env.JWT_SECRET, (err) => {
+      if (!err) {
+        res.status(200).send("Session active");
+      } else {
+        res.status(403).send("Invalid token");
+      }
+    });
+  } else {
+    res.status(403).send("No active session");
+  }
+});
+
 app.use("/", function auth(req, res, next) {
   res.set('Cache-Control', 'no-store');
   if (req.session.authorization) {
