@@ -1,11 +1,11 @@
-const userRoutes = require('./routes/users');
-const quizRoutes = require('./routes/quiz');
-const express = require('express');
-const cors = require('cors');
-const session = require('express-session');
-const jwt = require('jsonwebtoken');
-const app = express();
-const helmet = require('helmet');
+const userRoutes = require(`./routes/users`)
+const quizRoutes = require(`./routes/quiz`)
+const express = require(`express`)
+const cors = require (`cors`)
+const session = require(`express-session`)
+const jwt = require(`jsonwebtoken`)
+const app = express()
+const helmet = require(`helmet`)
 
 app.use(express.json());
 
