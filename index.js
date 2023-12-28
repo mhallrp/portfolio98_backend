@@ -30,6 +30,8 @@ app.use(cors({
 
 app.use("/user", userRoutes);
 
+app.use("/quiz", quizRoutes);
+
 app.use("/", function auth(req, res, next) {
   const origin = req.get('origin');
   if (origin !== "https://quiz.matt-hall.dev") {
@@ -54,6 +56,6 @@ app.use("/", function auth(req, res, next) {
   }
 });
 
-app.use("/quiz", quizRoutes);
+
 
 app.listen(process.env.PORT);
