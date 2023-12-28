@@ -28,51 +28,29 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use("/", function auth(req, res, next) {
-  const origin = req.get('origin');
-  if (origin != "https://quiz.matt-hall.dev"){
-  return res.status(403)
-  } else {
-    next()
-  }
-})
-
 app.use("/user", userRoutes);
 
-app.get("/check", (req, res) => {
-  if (req.session.authorization) {
-    let token = req.session.authorization['accessToken'];
-    jwt.verify(token, process.env.JWT_SECRET, (err) => {
-      if (!err) {
-        res.status(200).send("Session active");
-      } else {
-        res.status(403).send("Invalid token");
-      }
-    });
-  } else {
-    res.status(403).send("No active session");
-  }
-});
-
 app.use("/", function auth(req, res, next) {
+  const origin = req.get('origin');
+  if (origin !== "https://quiz.matt-hall.dev") {
+    return res.status(403).send("Forbidden origin");
+  }
   res.set('Cache-Control', 'no-store');
   if (req.session.authorization) {
     let token = req.session.authorization['accessToken'];
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (!err) {
-        req.user = user;
-        const origin = req.get('origin');
-        if (origin == "https://quiz.matt-hall.dev/check"){
-            return res.status(200)
-        } else {
-          next();
-        }
+      if (err) {
+        return res.status(403).send("Invalid token");
+      }
+      req.user = user;
+      if (req.path.startsWith("/quiz")) {
+        next();
       } else {
-        return res.status(403)
+        res.status(200).send("Session active");
       }
     });
   } else {
-    return res.status(403);
+    res.status(403).send("No active session");
   }
 });
 
