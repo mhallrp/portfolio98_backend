@@ -28,15 +28,20 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use("/", function auth(req, res, next) {
+  const origin = req.get('origin');
+  if (origin !== "https://quiz.matt-hall.dev") {
+    return res.status(403).send("Forbidden origin");
+  } else {
+    next()
+  }
+})
+
 app.use("/user", userRoutes);
 
 app.use("/quiz", quizRoutes);
 
 app.use("/", function auth(req, res, next) {
-  const origin = req.get('origin');
-  if (origin !== "https://quiz.matt-hall.dev") {
-    return res.status(403).send("Forbidden origin");
-  }
   res.set('Cache-Control', 'no-store');
   if (req.session.authorization) {
     let token = req.session.authorization['accessToken'];
@@ -45,11 +50,7 @@ app.use("/", function auth(req, res, next) {
         return res.status(403).send("Invalid token");
       }
       req.user = user;
-      if (req.path.startsWith("/quiz")) {
-        next();
-      } else {
         res.status(200).send("Session active");
-      }
     });
   } else {
     res.status(403).send("No active session");
