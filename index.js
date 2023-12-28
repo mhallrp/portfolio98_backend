@@ -53,11 +53,11 @@ app.use("/", function auth(req, res, next) {
           next();
         }
       } else {
-        return res.send('Error');
+        return res.status(403)
       }
     });
   } else {
-    return res.status(403).json({ message: "User not logged in" });
+    return res.status(403);
   }
 });
 
