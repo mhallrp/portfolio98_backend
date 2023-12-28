@@ -46,7 +46,12 @@ app.use("/", function auth(req, res, next) {
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (!err) {
         req.user = user;
-        next();
+        const origin = req.get('origin');
+        if (origin == "https://quiz.matt-hall.dev/"){
+            res.status(200)
+        } else {
+          next();
+        }
       } else {
         return res.send('Error');
       }
