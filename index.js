@@ -47,8 +47,8 @@ app.use("/", function auth(req, res, next) {
       if (!err) {
         req.user = user;
         const origin = req.get('origin');
-        if (origin == "https://quiz.matt-hall.dev/"){
-            res.status(200)
+        if (origin == "https://quiz.matt-hall.dev/check"){
+            return res.status(200)
         } else {
           next();
         }
