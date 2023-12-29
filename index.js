@@ -9,7 +9,9 @@ const helmet = require(`helmet`)
 
 app.use(express.json());
 
-app.use(helmet());
+app.use(helmet({
+  referrerPolicy: { policy: "origin-when-cross-origin" }
+}));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
