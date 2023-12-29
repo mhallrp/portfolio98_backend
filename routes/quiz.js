@@ -6,7 +6,7 @@ const retryDelay = 3000;
 
 async function fetchTrivia(categoryId, attempt = 1) {
     try {
-        const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${categoryId}`);
+        const response = await axios.get(`https://opentdb.come/api.php?amount=10&category=${categoryId}`);
         return response;
     } catch (error) {
         if (attempt < maxRetries) {
