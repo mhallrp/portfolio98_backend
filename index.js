@@ -31,11 +31,11 @@ app.use(cors({
 app.use("/", function auth(req, res, next) {
   const origin = req.get('origin');
   if (origin !== "https://quiz.matt-hall.dev") {
-    return res.status(403).send("Forbidden origin");
+    return res.status(403).json({ error: "Forbidden origin" });
   } else {
-    next()
+    next();
   }
-})
+});
 
 app.use("/user", userRoutes);
 
@@ -47,13 +47,13 @@ app.use("/", function auth(req, res, next) {
     let token = req.session.authorization['accessToken'];
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-        return res.status(403).send("Invalid token");
+        return res.status(403).json({ error: "Invalid token" });
       }
       req.user = user;
-        res.status(200).send("Session active");
+      res.status(200).json({ message: "Session active" });
     });
   } else {
-    res.status(403).send("No active session");
+    res.status(403).json({ error: "No active session" });
   }
 });
 
