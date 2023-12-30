@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 
-// module.exports = (connection) => {
+module.exports = (connection) => {
 
     let users = [];
 
@@ -64,8 +64,8 @@ const jwt = require('jsonwebtoken');
         });
     });
 
-    module.exports = router;
+    // module.exports = router;
 
-// return router
+return router
 
-// }
+}
