@@ -10,6 +10,12 @@ module.exports = (connection) => {
         if (!username || !password) {
             return res.status(400).json({ message: "Incomplete data" });
         }
+        if (username.length < 3 || username.length > 20) {
+            return res.status(400).json({ message: "Username must be between 3 and 20 characters" });
+        }
+        if (!username.match(/^[a-zA-Z0-9]+$/)) {
+            return res.status(400).json({ message: "Username must be alphanumeric" });
+        }
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
             connection.query('SELECT username FROM users WHERE username = ?', [username], (err, result) => {
