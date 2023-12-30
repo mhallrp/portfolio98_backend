@@ -50,7 +50,7 @@ module.exports = (connection) => {
             if (!validPassword) return res.status(401).json({ message: "Invalid credentials" });
             let accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
             req.session.authorization = { accessToken };
-            return res.status(200).json({ message: true, accessToken });
+            return res.status(200).json({ message: true, accessToken, username:user.userName, score:user.total_score });
         });
     });
     

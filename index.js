@@ -63,10 +63,10 @@ app.use("/", async function auth(req, res, next) {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
           if (err) return res.status(403).json({ error: "Invalid token" });
           connection.query('SELECT username, total_score FROM users WHERE id = ?', [decoded.id], (dbErr, results) => {
-              if (dbErr) return res.status(500).json({ error: "Database error" });
-              if (results.length === 0) return res.status(404).json({ error: "User not found" });
-              const userData = results[0];
-              res.status(200).json({ userData });
+          if (dbErr) return res.status(500).json({ error: "Database error" });
+          if (results.length === 0) return res.status(404).json({ error: "User not found" });
+          const userData = results[0];
+          res.status(200).json({ userData });
           });
       });
   } else {
