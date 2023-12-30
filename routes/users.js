@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (connection) => {
 
-    let users = [];
+    // let users = [];
 
     // router.post("/register", async (req, res) => {
     //     const { username, password } = req.body.user;
@@ -29,18 +29,18 @@ module.exports = (connection) => {
     //     });
     // });
 
-    router.post("/register", (req, res) => {
-        const register = req.body.user;
-        const filtered = users.filter((user) => user.username === register.username);
-        if (!register.username || !register.password) {
-            return res.status(400).json({ message: "Incomplete data" });
-        } else if (filtered.length > 0) {
-            return res.status(403).json({ message: "User already exists" });
-        } else {
-            users.push({ "username": register.username, "password": register.password });
-            return res.status(200).json({ message: "User added successfully" });
-        }
-    });
+    // router.post("/register", (req, res) => {
+    //     const register = req.body.user;
+    //     const filtered = users.filter((user) => user.username === register.username);
+    //     if (!register.username || !register.password) {
+    //         return res.status(400).json({ message: "Incomplete data" });
+    //     } else if (filtered.length > 0) {
+    //         return res.status(403).json({ message: "User already exists" });
+    //     } else {
+    //         users.push({ "username": register.username, "password": register.password });
+    //         return res.status(200).json({ message: "User added successfully" });
+    //     }
+    // });
 
     router.post("/login", (req, res) => {
         const user = req.body.user;
