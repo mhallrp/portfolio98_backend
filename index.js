@@ -1,4 +1,4 @@
-const userRoutes = require(`./routes/users`)
+// const userRoutes = require(`./routes/users`)
 const quizRoutes = require(`./routes/quiz`)
 const express = require(`express`)
 const cors = require (`cors`)
@@ -23,6 +23,7 @@ connection.connect(err => {
   console.log('Connected to MySQL Database!');
 });
 
+const userRoutes = require('./routes/users')(connection);
 
 app.use(express.json());
 
