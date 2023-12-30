@@ -9,7 +9,7 @@ const helmet = require(`helmet`)
 
 const mysql = require('mysql2');
 const connection = mysql.createConnection({
-    host: 'viaduct.proxy.rlwy.net',
+    host: 'mysql://root:DHDDhgBbD45b2GHabGChCAfgc-1gb23b@mysql.railway.internal:3306/railway',
     user: 'root',
     password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
     database: 'railway',
