@@ -22,13 +22,13 @@ connection.connect(err => {
   }
   console.log('Connected to MySQL Database!');
 
-  // Query to fetch the row with id 0
-  connection.query('SELECT * FROM users WHERE id = 0', (queryErr, results) => {
-    if (queryErr) {
-        console.error('Error fetching data:', queryErr);
-    } else {
-        console.log('Data for ID 0:', results);
-    }
+  const alterTableSql = 'ALTER TABLE users MODIFY username VARCHAR(256), MODIFY password VARCHAR(256)';
+  connection.query(alterTableSql, (alterErr) => {
+      if (alterErr) {
+          console.error('Error altering table:', alterErr);
+      } else {
+          console.log('Altered table successfully.');
+      }
   });
 });
 
