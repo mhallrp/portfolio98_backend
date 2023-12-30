@@ -1,3 +1,6 @@
+
+const userRoutes = require('./routes/users')
+const quizRoutes = require(`./routes/quiz`)
 const express = require(`express`)
 const cors = require (`cors`)
 const session = require(`express-session`)
@@ -21,8 +24,7 @@ const helmet = require(`helmet`)
 //   console.log('Connected to MySQL Database!');
 // });
 
-const userRoutes = require('./routes/users')
-const quizRoutes = require(`./routes/quiz`)
+
 
 app.use(express.json());
 
@@ -41,7 +43,7 @@ app.use(session({
 }));
 
 app.use(cors({
-  origin: "https://quiz.matt-hall.dev",
+  origin: "*",
   credentials: true,
 }));
 
