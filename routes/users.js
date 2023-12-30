@@ -56,7 +56,7 @@ module.exports = (connection) => {
             }
             let accessToken = jwt.sign({ data: user }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 60 });
             req.session.authorization = { accessToken: accessToken };
-            return res.status(200).json({ message: true });
+            return res.status(200).json({ message: true, userName: user.username, score: user.total_score });
         });
     });
 
