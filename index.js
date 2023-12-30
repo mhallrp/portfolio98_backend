@@ -5,8 +5,9 @@ const session = require(`express-session`)
 const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
-
+const redis = require('redis');
 const mysql = require('mysql2');
+
 const connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
@@ -21,11 +22,8 @@ connection.connect(err => {
   }
   console.log('Connected to MySQL Database!');
 });
-
 const userRoutes = require('./routes/users')(connection)
 
-
-const redis = require('redis');
 const redisClient = redis.createClient({ url: process.env.REDIS_URL });
 redisClient.on('connect', () => {
     console.log('Redis client connected');
@@ -69,20 +67,22 @@ app.use("/user", userRoutes);
 
 app.use("/quiz", quizRoutes);
 
-app.use("/", function auth(req, res, next) {
-  res.set('Cache-Control', 'no-store');
+app.use("/", async function auth(req, res, next) {
   if (req.session.authorization) {
-    let token = req.session.authorization['accessToken'];
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.status(403).json({ error: "Invalid token" });
-      }
-      req.user = user;
-      res.status(200).json({ message: "Session active" });
-    });
+      const token = req.session.authorization.accessToken;
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+          if (err) return res.status(403).json({ error: "Invalid token" });
+          connection.query('SELECT username, total_score FROM users WHERE id = ?', [decoded.id], (dbErr, results) => {
+              if (dbErr) return res.status(500).json({ error: "Database error" });
+              if (results.length === 0) return res.status(404).json({ error: "User not found" });
+              const userData = results[0];
+              res.status(200).json({ userData });
+          });
+      });
   } else {
-    res.status(403).json({ error: "No active session" });
+      res.status(403).json({ error: "No active session" });
   }
 });
+
 
 app.listen(process.env.PORT);
