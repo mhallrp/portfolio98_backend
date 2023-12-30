@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
 
-let users = [];
 module.exports = (connection) => {
 
     router.post("/register", async (req, res) => {
@@ -25,7 +23,6 @@ module.exports = (connection) => {
                     return res.status(200).json({ message: "User added successfully" });
                 });
             }
-            
         });
     });
 
