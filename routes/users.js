@@ -26,6 +26,7 @@ module.exports = (connection) => {
         });
     });
 
+    
     router.post("/login", (req, res) => {
         const user = req.body.user;
         const filtered = users.filter((userData) => userData.username === user.username && userData.password === user.password);
