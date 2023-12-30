@@ -21,8 +21,8 @@ connection.connect(err => {
       return;
   }
   console.log('Connected to MySQL Database!');
-
-  const alterTableSql = 'ALTER TABLE users MODIFY username VARCHAR(256), MODIFY password VARCHAR(256)';
+  
+  const alterTableSql = 'ALTER TABLE users MODIFY id INT AUTO_INCREMENT PRIMARY KEY';
   connection.query(alterTableSql, (alterErr) => {
       if (alterErr) {
           console.error('Error altering table:', alterErr);
