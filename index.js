@@ -9,7 +9,7 @@ const helmet = require(`helmet`)
 
 const mysql = require('mysql2');
 const connection = mysql.createConnection({
-    host: 'mysql.railway.internal',
+    host: 'viaduct.proxy.rlwy.net',
     user: 'root',
     password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
     database: 'railway',
@@ -21,6 +21,15 @@ connection.connect(err => {
       return;
   }
   console.log('Connected to MySQL Database!');
+
+  // Query to fetch the row with id 0
+  connection.query('SELECT * FROM your_table_name WHERE id = 0', (queryErr, results) => {
+    if (queryErr) {
+        console.error('Error fetching data:', queryErr);
+    } else {
+        console.log('Data for ID 0:', results);
+    }
+  });
 });
 
 app.use(express.json());
