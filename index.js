@@ -7,6 +7,21 @@ const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
 
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host: 'mysql.railway.internal',
+    user: 'root',
+    password: '4CDC3CG4faAe5Hch21b3Bbh6D6DA-bg5',
+    database: 'railway'
+});
+connection.connect(err => {
+  if (err) {
+      console.error('Error connecting to MySQL Database:', err);
+      return;
+  }
+  console.log('Connected to MySQL Database!');
+});
+
 app.use(express.json());
 
 app.use(helmet());
