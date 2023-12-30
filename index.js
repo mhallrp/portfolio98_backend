@@ -1,5 +1,3 @@
-const userRoutes = require(`./routes/users`)
-const quizRoutes = require(`./routes/quiz`)
 const express = require(`express`)
 const cors = require (`cors`)
 const session = require(`express-session`)
@@ -7,47 +5,23 @@ const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
 
-const mysql = require('mysql2');
 const connection = mysql.createConnection({
-    host: 'viaduct.proxy.rlwy.net',
-    user: 'root',
-    password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
-    database: 'railway',
-    port:'57067'
+  host: 'viaduct.proxy.rlwy.net',
+  user: 'root',
+  password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
+  database: 'railway',
+  port: '57067'
 });
+
 connection.connect(err => {
   if (err) {
       console.error('Error connecting to MySQL Database:', err);
       return;
   }
   console.log('Connected to MySQL Database!');
-
-  // Delete the users table if it exists
-  connection.query('DROP TABLE IF EXISTS users', (dropErr) => {
-    if (dropErr) {
-        console.error('Error dropping users table:', dropErr);
-    } else {
-        console.log('Users table dropped.');
-
-        // Recreate the users table with the correct configuration
-        const createTableSql = `
-          CREATE TABLE users (
-              id INT AUTO_INCREMENT PRIMARY KEY,
-              username VARCHAR(256) NOT NULL,
-              password VARCHAR(256) NOT NULL,
-              total_score INT DEFAULT 0
-          );
-        `;
-        connection.query(createTableSql, (createErr) => {
-            if (createErr) {
-                console.error('Error creating users table:', createErr);
-            } else {
-                console.log('Users table created.');
-            }
-        });
-    }
-  });
 });
+const userRoutes = require(`./routes/users`)(connection);
+const quizRoutes = require(`./routes/quiz`);
 
 
 app.use(express.json());
