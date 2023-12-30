@@ -9,7 +9,7 @@ const helmet = require(`helmet`)
 
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'mysql.railway.internal',
+    host: 'mysql://root:DHDDhgBbD45b2GHabGChCAfgc-1gb23b@mysql.railway.internal:3306/railway',
     user: 'root',
     password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
     database: 'railway',
