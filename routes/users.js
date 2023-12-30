@@ -7,27 +7,27 @@ module.exports = (connection) => {
 
     // let users = [];
 
-    // router.post("/register", async (req, res) => {
-    //     const { username, password } = req.body.user;
-    //     if (!username || !password) {
-    //         return res.status(400).json({ message: "Incomplete data" });
-    //     }
-    //     // const hashedPassword = await bcrypt.hash(password, 10);
-    //     connection.query('SELECT username FROM users WHERE username = ?', [username], (err, result) => {
-    //         if (err) {
-    //             return res.status(500).json({ message: "Database error" });
-    //         } else if (result.length > 0) {
-    //             return res.status(403).json({ message: "User already exists" });
-    //         } else {
-    //             connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (insertErr) => {
-    //                 if (insertErr) {
-    //                     return res.status(500).json({ message: "Database error on user creation" });
-    //                 }
-    //                 return res.status(200).json({ message: "User added successfully" });
-    //             });
-    //         }
-    //     });
-    // });
+    router.post("/register", async (req, res) => {
+        const { username, password } = req.body.user;
+        if (!username || !password) {
+            return res.status(400).json({ message: "Incomplete data" });
+        }
+        // const hashedPassword = await bcrypt.hash(password, 10);
+        connection.query('SELECT username FROM users WHERE username = ?', [username], (err, result) => {
+            if (err) {
+                return res.status(500).json({ message: "Database error" });
+            } else if (result.length > 0) {
+                return res.status(403).json({ message: "User already exists" });
+            } else {
+                connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (insertErr) => {
+                    if (insertErr) {
+                        return res.status(500).json({ message: "Database error on user creation" });
+                    }
+                    return res.status(200).json({ message: "User added successfully" });
+                });
+            }
+        });
+    });
 
     // router.post("/register", (req, res) => {
     //     const register = req.body.user;
