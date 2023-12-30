@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 let users = [];
 module.exports = (connection) => {
@@ -11,14 +11,14 @@ module.exports = (connection) => {
         if (!username || !password) {
             return res.status(400).json({ message: "Incomplete data" });
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // const hashedPassword = await bcrypt.hash(password, 10);
         connection.query('SELECT username FROM users WHERE username = ?', [username], (err, result) => {
             if (err) {
                 return res.status(500).json({ message: "Database error" });
             } else if (result.length > 0) {
                 return res.status(403).json({ message: "User already exists" });
             } else {
-                connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], (insertErr) => {
+                connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (insertErr) => {
                     if (insertErr) {
                         return res.status(500).json({ message: "Database error on user creation" });
                     }
