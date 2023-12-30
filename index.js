@@ -5,7 +5,6 @@ const session = require(`express-session`)
 const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
-
 const mysql = require('mysql2');
 const connection = mysql.createConnection({
     host: 'viaduct.proxy.rlwy.net',
@@ -14,6 +13,7 @@ const connection = mysql.createConnection({
     database: 'railway',
     port:'57067'
 });
+
 connection.connect(err => {
   if (err) {
       console.error('Error connecting to MySQL Database:', err);
@@ -21,8 +21,8 @@ connection.connect(err => {
   }
   console.log('Connected to MySQL Database!');
 });
-const userRoutes = require('./routes/users')(connection)
 
+const userRoutes = require('./routes/users')(connection)
 
 app.use(express.json());
 

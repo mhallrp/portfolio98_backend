@@ -11,7 +11,7 @@ module.exports = (connection) => {
             return res.status(400).json({ message: "Incomplete data" });
         }
         try {
-            const hashedPassword = await bcrypt.hash(password, 10); // Hashing the password
+            const hashedPassword = await bcrypt.hash(password, 10);
             connection.query('SELECT username FROM users WHERE username = ?', [username], (err, result) => {
                 if (err) {
                     return res.status(500).json({ message: "Database error" });
