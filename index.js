@@ -1,5 +1,3 @@
-// const userRoutes = require(`./routes/users`)
-const quizRoutes = require(`./routes/quiz`)
 const express = require(`express`)
 const cors = require (`cors`)
 const session = require(`express-session`)
@@ -24,6 +22,7 @@ connection.connect(err => {
 });
 
 const userRoutes = require('./routes/users')(connection);
+const quizRoutes = require(`./routes/quiz`)
 
 app.use(express.json());
 

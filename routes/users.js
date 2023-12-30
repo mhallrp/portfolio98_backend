@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 
 let users = [];
 module.exports = (connection) => {
+
+
+    
 router.post("/register", (req, res) => {
     const register = req.body.user;
     const filtered = users.filter((user) => user.username === register.username);
