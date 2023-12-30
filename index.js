@@ -22,6 +22,24 @@ connection.connect(err => {
       return;
   }
   console.log('Connected to MySQL Database!');
+
+  // SQL query to create the table
+  const createTableSql = `
+      CREATE TABLE IF NOT EXISTS users (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          username VARCHAR(256) NOT NULL,
+          password VARCHAR(256) NOT NULL,
+          total_score INT DEFAULT 0
+      );
+  `;
+
+  connection.query(createTableSql, (tableErr) => {
+      if (tableErr) {
+          console.error('Error creating table:', tableErr);
+      } else {
+          console.log('Table created or already exists');
+      }
+  });
 });
 
 const userRoutes = require('./routes/users')(connection)
