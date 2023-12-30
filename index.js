@@ -41,7 +41,7 @@ app.use(session({
 }));
 
 app.use(cors({
-  origin: ["https://quiz.matt-hall.dev", "https://request.matt-hall.dev"],
+  origin: "https://quiz.matt-hall.dev",
   credentials: true,
 }));
 
