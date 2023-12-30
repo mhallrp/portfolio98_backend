@@ -21,16 +21,34 @@ connection.connect(err => {
       return;
   }
   console.log('Connected to MySQL Database!');
-  
-  const alterTableSql = 'ALTER TABLE users MODIFY id INT AUTO_INCREMENT PRIMARY KEY';
-  connection.query(alterTableSql, (alterErr) => {
-      if (alterErr) {
-          console.error('Error altering table:', alterErr);
-      } else {
-          console.log('Altered table successfully.');
-      }
+
+  // Delete the users table if it exists
+  connection.query('DROP TABLE IF EXISTS users', (dropErr) => {
+    if (dropErr) {
+        console.error('Error dropping users table:', dropErr);
+    } else {
+        console.log('Users table dropped.');
+
+        // Recreate the users table with the correct configuration
+        const createTableSql = `
+          CREATE TABLE users (
+              id INT AUTO_INCREMENT PRIMARY KEY,
+              username VARCHAR(256) NOT NULL,
+              password VARCHAR(256) NOT NULL,
+              total_score INT DEFAULT 0
+          );
+        `;
+        connection.query(createTableSql, (createErr) => {
+            if (createErr) {
+                console.error('Error creating users table:', createErr);
+            } else {
+                console.log('Users table created.');
+            }
+        });
+    }
   });
 });
+
 
 app.use(express.json());
 
