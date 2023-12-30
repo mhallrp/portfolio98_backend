@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 let users = [];
 module.exports = (connection) => {
-
 
     router.post("/register", async (req, res) => {
         const { username, password } = req.body.user;
