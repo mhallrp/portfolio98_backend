@@ -8,13 +8,12 @@ const app = express()
 const helmet = require(`helmet`)
 
 const mysql = require('mysql');
-
 const connection = mysql.createConnection({
-    host: process.env.MYSQLHOST,
-    user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDATABASE,
-    port: process.env.MYSQLPORT
+    host: 'mysql.railway.internal',
+    user: 'root',
+    password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
+    database: 'railway',
+    port:'57067'
 });
 connection.connect(err => {
   if (err) {
