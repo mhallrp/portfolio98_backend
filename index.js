@@ -48,7 +48,7 @@ app.use(cors({
 
 app.use("/", function auth(req, res, next) {
   const origin = req.get('origin');
-  if (origin !== "https://quiz.matt-hall.dev") {
+  if (origin !== "https://quiz.matt-hall.dev" || "https://request.matt-hall.dev") {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
     next();
