@@ -23,7 +23,7 @@ connection.connect(err => {
   console.log('Connected to MySQL Database!');
 
   // Query to fetch the row with id 0
-  connection.query('SELECT * FROM your_table_name WHERE id = 0', (queryErr, results) => {
+  connection.query('SELECT * FROM users WHERE id = 0', (queryErr, results) => {
     if (queryErr) {
         console.error('Error fetching data:', queryErr);
     } else {
