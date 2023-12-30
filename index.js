@@ -5,8 +5,8 @@ const session = require(`express-session`)
 const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
-const mysql = require('mysql2');
 
+const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
@@ -14,8 +14,6 @@ const connection = mysql.createConnection({
   database: process.env.MYSQL_DATABASE,
   port: process.env.MYSQL_PORT
 });
-
-
 connection.connect(err => {
   if (err) {
       console.error('Error connecting to MySQL Database:', err);
@@ -25,6 +23,17 @@ connection.connect(err => {
 });
 
 const userRoutes = require('./routes/users')(connection)
+
+
+const redis = require('redis');
+const redisClient = redis.createClient({ url: process.env.REDIS_URL });
+redisClient.on('connect', () => {
+    console.log('Redis client connected');
+});
+redisClient.on('error', (err) => {
+    console.error('Redis client could not connect:', err);
+});
+redisClient.connect();
 
 app.use(express.json());
 
