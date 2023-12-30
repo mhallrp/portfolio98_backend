@@ -8,21 +8,21 @@ const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
 
-// const mysql = require('mysql2');
-// const connection = mysql.createConnection({
-//     host: 'viaduct.proxy.rlwy.net',
-//     user: 'root',
-//     password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
-//     database: 'railway',
-//     port:'57067'
-// });
-// connection.connect(err => {
-//   if (err) {
-//       console.error('Error connecting to MySQL Database:', err);
-//       return;
-//   }
-//   console.log('Connected to MySQL Database!');
-// });
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: 'viaduct.proxy.rlwy.net',
+    user: 'root',
+    password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
+    database: 'railway',
+    port:'57067'
+});
+connection.connect(err => {
+  if (err) {
+      console.error('Error connecting to MySQL Database:', err);
+      return;
+  }
+  console.log('Connected to MySQL Database!');
+});
 
 
 
@@ -47,14 +47,14 @@ app.use(cors({
   credentials: true,
 }));
 
-// app.use("/", function auth(req, res, next) {
-//   const origin = req.get('origin');
-//   if (origin !== "https://quiz.matt-hall.dev") {
-//     return res.status(403).json({ error: "Forbidden origin" });
-//   } else {
-//     next();
-//   }
-// });
+app.use("/", function auth(req, res, next) {
+  const origin = req.get('origin');
+  if (origin !== "https://quiz.matt-hall.dev") {
+    return res.status(403).json({ error: "Forbidden origin" });
+  } else {
+    next();
+  }
+});
 
 app.use("/user", userRoutes);
 
