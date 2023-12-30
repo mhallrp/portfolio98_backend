@@ -8,11 +8,11 @@ const helmet = require(`helmet`)
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
-    port: process.env.MYSQL_PORT
+    host: 'viaduct.proxy.rlwy.net',
+    user: 'root',
+    password: 'DHDDhgBbD45b2GHabGChCAfgc-1gb23b',
+    database: 'railway',
+    port:'57067'
 });
 
 connection.connect(err => {
