@@ -65,8 +65,8 @@ app.use("/", async function auth(req, res, next) {
           connection.query('SELECT username, total_score FROM users WHERE id = ?', [decoded.id], (dbErr, results) => {
           if (dbErr) return res.status(500).json({ error: "Database error" });
           if (results.length === 0) return res.status(404).json({ error: "User not found" });
-          const userData = results[0];
-          res.status(200).json({ userData });
+          const user = results[0];
+          res.status(200).json({ username:user.username, score:user.total_score });
           });
       });
   } else {
