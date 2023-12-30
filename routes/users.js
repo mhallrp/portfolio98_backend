@@ -1,10 +1,10 @@
+module.exports = function(connection) {
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt')
 
-module.exports = function(connection) {
 let users = [];
+
 router.post("/register", (req, res) => {
     const register = req.body.user;
     const filtered = users.filter((user) => user.username === register.username);
@@ -40,6 +40,6 @@ router.get('/logout', (req, res) => {
     });
 });
 
-return router
+module.exports = router;
 
 }
