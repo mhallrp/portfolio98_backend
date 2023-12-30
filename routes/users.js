@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 
 module.exports = (connection) => {
 
-    // let users = [];
     router.post("/register", async (req, res) => {
         const { username, password } = req.body.user;
         if (!username || !password) {
@@ -37,7 +36,6 @@ module.exports = (connection) => {
         if (!username || !password) {
             return res.status(400).json({ message: "Incomplete data" });
         }
-    
         connection.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
             if (err) {
                 return res.status(500).json({ message: "Database error" });
@@ -66,8 +64,5 @@ module.exports = (connection) => {
         });
     });
 
-    // module.exports = router;
-
-return router
-
+    return router
 }
