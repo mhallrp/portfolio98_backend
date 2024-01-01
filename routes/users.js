@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-module.exports = (connection) => {
+module.exports = (pool) => {
 
     router.post("/register", async (req, res) => {
         const { username, password } = req.body.user;
@@ -18,13 +18,13 @@ module.exports = (connection) => {
         }
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-            connection.query('SELECT username FROM users WHERE username = ?', [username], (err, result) => {
+            pool.query('SELECT username FROM users WHERE username = $1', [username], (err, result) => {
                 if (err) {
                     return res.status(500).json({ message: "Database error" });
-                } else if (result.length > 0) {
+                } else if (result.rows.length > 0) {
                     return res.status(403).json({ message: "User already exists" });
                 } else {
-                    connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], (insertErr) => {
+                    pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword], (insertErr) => {
                         if (insertErr) {
                             return res.status(500).json({ message: "Database error on user creation" });
                         }
@@ -42,15 +42,15 @@ module.exports = (connection) => {
         if (!username || !password) {
             return res.status(400).json({ message: "Incomplete data" });
         }
-        connection.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
+        pool.query('SELECT * FROM users WHERE username = $1', [username], async (err, results) => {
             if (err) return res.status(500).json({ message: "Database error" });
-            if (results.length === 0) return res.status(401).json({ message: "Invalid credentials" });
-            const user = results[0];
+            if (results.rowCount === 0) return res.status(401).json({ message: "Invalid credentials" });
+            const user = results.rows[0];
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) return res.status(401).json({ message: "Invalid credentials" });
             let accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
             req.session.authorization = { accessToken };
-            return res.status(200).json({ message: true, accessToken, username:user.username, score:user.total_score });
+            return res.status(200).json({ message: true, accessToken, username: user.username, score: user.total_score });
         });
     });
     
@@ -65,5 +65,5 @@ module.exports = (connection) => {
         });
     });
 
-    return router
+    return router;
 }
