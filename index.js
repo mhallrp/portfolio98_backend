@@ -2,7 +2,6 @@ const quizRoutes = require(`./routes/quiz`)
 const express = require(`express`)
 const cors = require (`cors`)
 const session = require(`express-session`)
-const jwt = require(`jsonwebtoken`)
 const app = express()
 const helmet = require(`helmet`)
 
@@ -60,21 +59,21 @@ app.use("/user", userRoutes);
 app.use("/quiz", quizRoutes);
 
 app.use("/", async function auth(req, res, next) {
-  if (req.session.authorization) {
-      const token = req.session.authorization.accessToken;
-      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-          if (err) return res.status(403).json({ error: "Invalid token" });
-          pool.query('SELECT username, total_score FROM users WHERE id = $1', [decoded.id], (dbErr, results) => {
-          if (dbErr) return res.status(500).json({ error: "Database error" });
-          if (results.rowCount === 0) return res.status(404).json({ error: "User not found" });
+  if (req.session.user) {
+      const userId = req.session.user.id;
+      try {
+          const results = await pool.query('SELECT username, total_score FROM users WHERE id = $1', [userId]);
+          if (results.rowCount === 0) {
+              return res.status(404).json({ error: "User not found" });
+          }
           const user = results.rows[0];
-          res.status(200).json({ username:user.username, score:user.total_score });
-          });
-      });
+          res.status(200).json({ username: user.username, score: user.total_score });
+      } catch (dbErr) {
+          return res.status(500).json({ error: "Database error" });
+      }
   } else {
       res.status(403).json({ error: "No active session" });
   }
 });
-
 
 app.listen(process.env.PORT);

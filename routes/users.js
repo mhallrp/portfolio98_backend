@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 module.exports = (pool) => {
@@ -48,9 +47,8 @@ module.exports = (pool) => {
             const user = results.rows[0];
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) return res.status(401).json({ message: "Invalid credentials" });
-            let accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            req.session.authorization = { accessToken };
-            return res.status(200).json({ message: true, accessToken, username: user.username, score: user.total_score });
+            req.session.user = { id: user.id, username: user.username };
+            return res.status(200).json({ message: "Login successful", username: user.username, score: user.total_score });
         });
     });
     
