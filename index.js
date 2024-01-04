@@ -1,9 +1,9 @@
-const quizRoutes = require(`./routes/quiz`)
 const express = require(`express`)
 const cors = require (`cors`)
 const session = require(`express-session`)
-const app = express()
+const quizRoutes = require(`./routes/quiz`)
 const helmet = require(`helmet`)
+const app = express()
 
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -36,7 +36,8 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: 'none',
-    secure:true
+    secure:true,
+    maxAge: 10000
   }
 }));
 
@@ -58,7 +59,7 @@ app.use("/user", userRoutes);
 
 app.use("/quiz", quizRoutes);
 
-app.use("/", async function auth(req, res, next) {
+app.use("/", async function auth(req, res) {
   if (req.session.user) {
       const userId = req.session.user.id;
       try {
