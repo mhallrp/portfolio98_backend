@@ -31,14 +31,17 @@ app.use(helmet());
 app.use((req, res, next) => {
   const apiKey = req.headers['x-api-key'];
   if (!apiKey || apiKey !== process.env.APP_API_KEY) {
+    console.log("Incorrect API Key")
     return res.status(403).send('Invalid API Key');
   }
+  console.log("Key is fine")
   next();
 });
 
 app.use((req, res, next) => {
   const allowedOrigins = ['https://quiz.matt-hall.dev', 'http://localhost:3000'];
   const origin = req.get('origin');
+  console.log("This is origin " + origin)
   let isProduction = origin === 'https://quiz.matt-hall.dev';
   if (allowedOrigins.includes(origin)) {
     cors({
