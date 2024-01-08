@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(helmet());
 
 app.use((req, res, next) => {
-  const apiKey = req.headers['X-API-KEY'];
+  const apiKey = req.headers['X-API-Key'];
   if (!apiKey || apiKey !== process.env.APP_API_KEY) {
     //result of the below console log is( Incorrect API Key, header: undefinedENV: key_19d7fb7f26639442d350b5c3924f19c107efd8b6 )
     console.log("Incorrect API Key, header: " + apiKey + "ENV: " + process.env.APP_API_KEY)
