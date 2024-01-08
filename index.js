@@ -28,47 +28,36 @@ app.use(express.json());
 
 app.use(helmet());
 
-app.use((req, res, next) => {
-  const allowedOrigins = ['https://quiz.matt-hall.dev', 'http://localhost:3000'];
-  const origin = req.get('origin');
-  console.log("This is origin " + origin)
-  let isProduction = origin === 'https://quiz.matt-hall.dev';
-  if (allowedOrigins.includes(origin)) {
-    cors({
-      origin: origin,
-      credentials: true,
-      allowedHeaders: ['X-API-Key', 'Content-Type']
-    })(req, res, next);
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    proxy: true,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 300000,
+    },
+  })
+);
 
-    session({
-      secret: process.env.SESSION_SECRET,
-      proxy: true,
-      resave: true,
-      saveUninitialized: true,
-      cookie: {
-        httpOnly: true,
-        sameSite: isProduction ? 'none' : 'lax',
-        secure: isProduction,                    
-        maxAge: 300000,
-      },
-    })(req, res, next);
+app.use(
+  cors({
+    origin: "http://quiz.matt-hall.dev",
+    credentials: true,
+  })
+);
+
+app.use("/", function auth(req, res, next) {
+  const origin = req.get("origin");
+  if (origin !== "https://quiz.matt-hall.dev") {
+    return res.status(403).json({ error: "Forbidden origin" });
   } else {
-    next(new Error('Not allowed by CORS'));
+    next();
   }
 });
-
-app.use((req, res, next) => {
-  const apiKey = req.headers['X-API-Key'];
-  if (!apiKey || apiKey !== process.env.APP_API_KEY) {
-    //result of the below console log is( Incorrect API Key, header: undefinedENV: key_19d7fb7f26639442d350b5c3924f19c107efd8b6 )
-    console.log("Incorrect API Key, header: " + apiKey + "ENV: " + process.env.APP_API_KEY)
-    return res.status(403).send('Invalid API Key');
-  }
-  console.log("Key is fine")
-  next();
-});
-
-
 
 app.use("/user", userRoutes);
 
