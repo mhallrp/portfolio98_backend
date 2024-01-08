@@ -37,6 +37,7 @@ app.use((req, res, next) => {
     cors({
       origin: origin,
       credentials: true,
+      allowedHeaders: ['X-API-Key', 'Content-Type']
     })(req, res, next);
 
     session({
