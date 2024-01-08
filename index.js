@@ -53,7 +53,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: origin === 'https://quiz.matt-hall.dev' ? "none" : "lax",
+      sameSite: origin === 'https://quiz.matt-hall.dev' ? "none" : "false",
       secure: origin === 'https://quiz.matt-hall.dev',
       maxAge: 300000,
     },
