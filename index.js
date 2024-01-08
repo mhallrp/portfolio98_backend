@@ -43,8 +43,11 @@ app.use(
   })
 );
 
-app.use(req,cors({
-    origin: req.origin,
+const origin = req.origin
+
+app.use(
+  cors({
+    origin: origin,
     credentials: true,
   })
 );
