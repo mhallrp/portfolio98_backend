@@ -31,7 +31,7 @@ app.use(helmet());
 app.use((req, res, next) => {
   const apiKey = req.headers['x-api-key'];
   if (!apiKey || apiKey !== process.env.APP_API_KEY) {
-    console.log("Incorrect API Key")
+    console.log("Incorrect API Key, header: " + apiKey + "ENV: " + process.env.APP_API_KEY)
     return res.status(403).send('Invalid API Key');
   }
   console.log("Key is fine")
