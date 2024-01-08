@@ -36,11 +36,8 @@ app.use(
 );
 
 app.use("/", function auth(req, res, next) {
-
-  console.log(req.get('X-API-Key'));
   origin = req.get("origin");
-
-  if (origin !== "https://quiz.matt-hall.dev") {
+  if (process.env.APP_API_KEY !== req.get('X-API-Key')) {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
     next();
