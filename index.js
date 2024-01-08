@@ -43,7 +43,7 @@ app.use(
   })
 );
 
-const origin = req.origin
+const origin = req.get('origin');
 
 app.use(
   cors({
@@ -51,6 +51,7 @@ app.use(
     credentials: true,
   })
 );
+
 
 app.use("/", function auth(req, res, next) {
 
