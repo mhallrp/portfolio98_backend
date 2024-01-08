@@ -43,17 +43,15 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "https://quiz.matt-hall.dev",
+app.use(req,cors({
+    origin: req.origin,
     credentials: true,
   })
 );
 
 app.use("/", function auth(req, res, next) {
-  
+
   console.log(req.get('x-api-key'));
-  console.log(req.headers['x-api-key'])
 
   const origin = req.get("origin");
   if (origin !== "https://quiz.matt-hall.dev") {
