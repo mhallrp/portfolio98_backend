@@ -36,8 +36,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: "lax",
+      secure: false,
       maxAge: 300000,
     },
   })
@@ -45,19 +45,19 @@ app.use(
 
 app.use(
   cors({
-    origin: "https://quiz.matt-hall.dev",
+    // origin: "https://quiz.matt-hall.dev",
     credentials: true,
   })
 );
 
-app.use("/", function auth(req, res, next) {
-  const origin = req.get("origin");
-  if (origin !== "https://quiz.matt-hall.dev") {
-    return res.status(403).json({ error: "Forbidden origin" });
-  } else {
-    next();
-  }
-});
+// app.use("/", function auth(req, res, next) {
+//   const origin = req.get("origin");
+//   if (origin !== "https://quiz.matt-hall.dev") {
+//     return res.status(403).json({ error: "Forbidden origin" });
+//   } else {
+//     next();
+//   }
+// });
 
 app.use("/user", userRoutes);
 
