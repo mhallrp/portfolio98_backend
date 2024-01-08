@@ -53,14 +53,13 @@ app.use(
 app.use("/", function auth(req, res, next) {
 
   console.log(req.get('x-api-key'));
-  next()
 
-  // const origin = req.get("origin");
-  // if (origin !== "https://quiz.matt-hall.dev" || 'http://localhost:3000') {
-  //   return res.status(403).json({ error: "Forbidden origin" });
-  // } else {
-  //   next();
-  // }
+  const origin = req.get("origin");
+  if (origin !== "https://quiz.matt-hall.dev") {
+    return res.status(403).json({ error: "Forbidden origin" });
+  } else {
+    next();
+  }
 });
 
 app.use("/user", userRoutes);
