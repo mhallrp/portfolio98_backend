@@ -51,6 +51,9 @@ app.use(
 );
 
 app.use("/", function auth(req, res, next) {
+
+  console.log("these are the headers: " + req.headers)
+
   const origin = req.get("origin");
   if (origin !== "https://quiz.matt-hall.dev") {
     return res.status(403).json({ error: "Forbidden origin" });
