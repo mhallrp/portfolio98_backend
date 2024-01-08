@@ -51,8 +51,9 @@ app.use(
 );
 
 app.use("/", function auth(req, res, next) {
-
-  console.log(req.headers)
+  
+  console.log(req.get('x-api-key'));
+  console.log(req.headers['x-api-key'])
 
   const origin = req.get("origin");
   if (origin !== "https://quiz.matt-hall.dev") {
