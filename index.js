@@ -45,7 +45,7 @@ app.use(
 
 app.use(
   cors({
-    // origin: "https://quiz.matt-hall.dev",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
