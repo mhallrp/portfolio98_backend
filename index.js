@@ -28,8 +28,6 @@ app.use(express.json());
 
 app.use(helmet());
 
-
-
 app.use(
   cors({
     origin: ['http://localhost:3000', 'https://quiz.matt-hall.dev'],
@@ -40,12 +38,11 @@ app.use(
 app.use("/", function auth(req, res, next) {
 
   console.log(req.get('X-API-Key'));
-
   const origin = req.get("origin");
+
   if (origin !== "https://quiz.matt-hall.dev") {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
-    app.use(
       session({
         secret: process.env.SESSION_SECRET,
         proxy: true,
@@ -57,7 +54,7 @@ app.use("/", function auth(req, res, next) {
           secure: true,
           maxAge: 300000,
         },
-      })
+      }
     );
     next();
   }
