@@ -29,17 +29,6 @@ app.use(express.json());
 app.use(helmet());
 
 app.use((req, res, next) => {
-  const apiKey = req.headers['X-API-Key'];
-  if (!apiKey || apiKey !== process.env.APP_API_KEY) {
-    //result of the below console log is( Incorrect API Key, header: undefinedENV: key_19d7fb7f26639442d350b5c3924f19c107efd8b6 )
-    console.log("Incorrect API Key, header: " + apiKey + "ENV: " + process.env.APP_API_KEY)
-    return res.status(403).send('Invalid API Key');
-  }
-  console.log("Key is fine")
-  next();
-});
-
-app.use((req, res, next) => {
   const allowedOrigins = ['https://quiz.matt-hall.dev', 'http://localhost:3000'];
   const origin = req.get('origin');
   console.log("This is origin " + origin)
@@ -66,6 +55,19 @@ app.use((req, res, next) => {
     next(new Error('Not allowed by CORS'));
   }
 });
+
+app.use((req, res, next) => {
+  const apiKey = req.headers['X-API-Key'];
+  if (!apiKey || apiKey !== process.env.APP_API_KEY) {
+    //result of the below console log is( Incorrect API Key, header: undefinedENV: key_19d7fb7f26639442d350b5c3924f19c107efd8b6 )
+    console.log("Incorrect API Key, header: " + apiKey + "ENV: " + process.env.APP_API_KEY)
+    return res.status(403).send('Invalid API Key');
+  }
+  console.log("Key is fine")
+  next();
+});
+
+
 
 app.use("/user", userRoutes);
 
