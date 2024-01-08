@@ -43,21 +43,21 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://quiz.matt-hall.dev'],
+    credentials: true,
+  })
+);
+
 app.use("/", function auth(req, res, next) {
 
   console.log(req.get('x-api-key'));
 
-  const origin = req.get('origin');
-
-  if (process.env.APP_API_KEY !== req.get('x-api-key')) {
+  const origin = req.get("origin");
+  if (origin !== "https://quiz.matt-hall.dev") {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
-    app.use(
-      cors({
-        origin: origin,
-        credentials: true,
-      })
-    );
     next();
   }
 });
