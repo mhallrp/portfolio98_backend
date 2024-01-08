@@ -4,7 +4,7 @@ const session = require(`express-session`);
 const quizRoutes = require(`./routes/quiz`);
 const helmet = require(`helmet`);
 const app = express();
-
+let origin = undefined
 const { Pool } = require("pg");
 const pool = new Pool({
   host: process.env.PGHOST,
@@ -38,7 +38,7 @@ app.use(
 app.use("/", function auth(req, res, next) {
 
   console.log(req.get('X-API-Key'));
-  const origin = req.get("origin");
+  origin = req.get("origin");
 
   if (origin !== "https://quiz.matt-hall.dev") {
     return res.status(403).json({ error: "Forbidden origin" });
@@ -55,8 +55,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: origin === 'https://quiz.matt-hall.dev' ? "none" : "lax",
+      secure: origin === 'https://quiz.matt-hall.dev',
       maxAge: 300000,
     },
   })
