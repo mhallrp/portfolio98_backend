@@ -28,36 +28,40 @@ app.use(express.json());
 
 app.use(helmet());
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    proxy: true,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-      maxAge: 300000,
-    },
-  })
-);
+app.use((req, res, next) => {
+  const apiKey = req.headers['x-api-key'];
+  if (!apiKey || apiKey !== process.env.APP_API_KEY) {
+    return res.status(403).send('Invalid API Key');
+  }
+  next();
+});
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use((req, res, next) => {
+  const allowedOrigins = ['https://quiz.matt-hall.dev', 'http://localhost:3000'];
+  const origin = req.get('origin');
+  let isProduction = origin === 'https://quiz.matt-hall.dev';
+  if (allowedOrigins.includes(origin)) {
+    cors({
+      origin: origin,
+      credentials: true,
+    })(req, res, next);
 
-// app.use("/", function auth(req, res, next) {
-//   const origin = req.get("origin");
-//   if (origin !== "https://quiz.matt-hall.dev") {
-//     return res.status(403).json({ error: "Forbidden origin" });
-//   } else {
-//     next();
-//   }
-// });
+    session({
+      secret: process.env.SESSION_SECRET,
+      proxy: true,
+      resave: true,
+      saveUninitialized: true,
+      cookie: {
+        httpOnly: true,
+        sameSite: isProduction ? 'none' : 'lax',
+        secure: isProduction,                    
+        maxAge: 300000,
+      },
+    })(req, res, next);
+  } else {
+    next(new Error('Not allowed by CORS'));
+  }
+});
 
 app.use("/user", userRoutes);
 
