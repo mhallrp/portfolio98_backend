@@ -43,22 +43,24 @@ app.use("/", function auth(req, res, next) {
   if (origin !== "https://quiz.matt-hall.dev") {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
-      session({
-        secret: process.env.SESSION_SECRET,
-        proxy: true,
-        resave: true,
-        saveUninitialized: true,
-        cookie: {
-          httpOnly: true,
-          sameSite: "none",
-          secure: true,
-          maxAge: 300000,
-        },
-      }
-    );
     next();
   }
 });
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    proxy: true,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 300000,
+    },
+  })
+);
 
 app.use("/user", userRoutes);
 
