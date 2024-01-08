@@ -37,6 +37,7 @@ app.use(
 
 app.use("/", function auth(req, res, next) {
   origin = req.get("origin");
+  console.log(req.get('X-API-Key'))
   if (process.env.APP_API_KEY !== req.get('X-API-Key')) {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
