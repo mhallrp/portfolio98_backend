@@ -26,7 +26,7 @@ router.get('/trivia', async (req, res) => {
 
     try {
         const query = `
-          SELECT * FROM your_table_name
+          SELECT * FROM quiz
           WHERE category = 'Music'
           ORDER BY RANDOM()
           LIMIT 10;
