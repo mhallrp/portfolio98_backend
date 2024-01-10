@@ -6,21 +6,6 @@ const retryDelay = 3000;
 
 module.exports = (pool) => {
 
-// async function fetchTrivia(categoryId, attempt = 1) {
-//     try {
-//         const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${categoryId}`);
-//         return response;
-//     } catch (error) {
-//         if (attempt < maxRetries) {
-//             console.log(`Attempt ${attempt} failed, retrying in ${retryDelay}ms...`);
-//             await new Promise(resolve => setTimeout(resolve, retryDelay));
-//             return fetchTrivia(categoryId, attempt + 1);
-//         } else {
-//             throw error;
-//         }
-//     }
-// }
-
 router.get('/trivia', async (req, res) => {
     const categoryId = req.query.category;
 
@@ -28,7 +13,7 @@ router.get('/trivia', async (req, res) => {
 
         const queryResult = await pool.query("SELECT DISTINCT category FROM quiz");
         const categories = queryResult.rows.map((row) => (row.category));
-        const category = categories[categoryId]
+        const category = categories.reverse()[categoryId]
         const query = `
           SELECT * FROM quiz
           WHERE category = '${category}'
@@ -50,7 +35,7 @@ router.get('/categories', async (req, res) => {
             id: index,
             name: row.category
         }));
-        res.json(categories);
+        res.json(categories.reverse());
     } catch (error) {
         console.error("Error fetching categories:", error);
         res.status(500).send("Failed to fetch categories");
