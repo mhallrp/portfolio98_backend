@@ -4,6 +4,8 @@ const axios = require('axios');
 const maxRetries = 3;
 const retryDelay = 3000;
 
+module.exports = (pool) => {
+
 async function fetchTrivia(categoryId, attempt = 1) {
     try {
         const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${categoryId}`);
@@ -50,4 +52,6 @@ router.get('/categories', async (req, res) => {
 //     }
 // });
 
-module.exports=router;
+}
+
+// module.exports=router;
