@@ -1,7 +1,7 @@
 const express = require(`express`);
 const cors = require(`cors`);
 const session = require(`express-session`);
-const quizRoutes = require(`./routes/quiz`);
+
 const helmet = require(`helmet`);
 const app = express();
 let origin = undefined
@@ -23,6 +23,7 @@ pool.connect((err) => {
 });
 
 const userRoutes = require("./routes/users")(pool);
+const quizRoutes = require(`./routes/quiz`)(pool);
 
 app.use(express.json());
 
@@ -37,7 +38,6 @@ app.use(
 
 app.use("/", function auth(req, res, next) {
   origin = req.get("origin");
-  console.log(req.get('X-API-Key'))
   if (process.env.APP_API_KEY !== req.get('X-API-Key')) {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
