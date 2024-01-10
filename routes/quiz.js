@@ -35,16 +35,10 @@ router.get('/categories', async (req, res) => {
     try {
         const queryResult = await pool.query("SELECT DISTINCT category FROM quiz");
         const categories = queryResult.rows.map((row, index) => ({
-            id: index, // You can adjust this ID generation logic as needed
+            id: index,
             name: row.category
         }));
-        
-        // Create the response object
-        const response = {
-            trivia_categories: categories
-        };
-
-        res.json(response);
+        res.json(categories);
     } catch (error) {
         console.error("Error fetching categories:", error);
         res.status(500).send("Failed to fetch categories");
