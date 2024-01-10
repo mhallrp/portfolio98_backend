@@ -35,7 +35,10 @@ router.get('/trivia', async (req, res) => {
 router.get('/categories', async (req, res) => {
     try {
         const queryResult = await pool.query("SELECT DISTINCT category FROM quiz");
-        const categories = queryResult.rows.map(row => row.category);
+        const categories = queryResult.rows.map((row, index) => ({
+            id: index,
+            category: row.category
+        }));
         res.json(categories);
     } catch (error) {
         console.error("Error fetching categories:", error);
@@ -45,15 +48,4 @@ router.get('/categories', async (req, res) => {
 
 return router
 
-// router.get('/categories', async (req, res) => {
-//     try {
-//         const response = await axios.get("https://opentdb.com/api_category.php");
-//         res.json(response.data.trivia_categories);
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// });
-
 }
-
-// module.exports=router;
