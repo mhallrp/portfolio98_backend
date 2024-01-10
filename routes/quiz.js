@@ -27,9 +27,7 @@ router.get('/trivia', async (req, res) => {
     try {
 
         const queryResult = await pool.query("SELECT DISTINCT category FROM quiz");
-        const categories = queryResult.rows.map((row) => ({
-            name: row.category
-        }));
+        const categories = queryResult.rows.map((row) => (row.category));
         const category = categories[categoryId]
         const query = `
           SELECT * FROM quiz
