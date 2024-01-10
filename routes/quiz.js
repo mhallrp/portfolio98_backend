@@ -31,20 +31,26 @@ router.get('/trivia', async (req, res) => {
         res.status(500).send("Failed to fetch trivia questions");
     }
 });
-
 router.get('/categories', async (req, res) => {
     try {
         const queryResult = await pool.query("SELECT DISTINCT category FROM quiz");
         const categories = queryResult.rows.map((row, index) => ({
-            id: index,
-            category: row.category
+            id: index, // You can adjust this ID generation logic as needed
+            name: row.category
         }));
-        res.json(categories);
+        
+        // Create the response object
+        const response = {
+            trivia_categories: categories
+        };
+
+        res.json(response);
     } catch (error) {
         console.error("Error fetching categories:", error);
         res.status(500).send("Failed to fetch categories");
     }
 });
+
 
 return router
 
