@@ -43,6 +43,8 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+return router
+
 // router.get('/categories', async (req, res) => {
 //     try {
 //         const response = await axios.get("https://opentdb.com/api_category.php");
