@@ -25,9 +25,15 @@ router.get('/trivia', async (req, res) => {
     const categoryId = req.query.category;
 
     try {
+
+        const queryResult = await pool.query("SELECT DISTINCT category FROM quiz");
+        const categories = queryResult.rows.map((row) => ({
+            name: row.category
+        }));
+        const category = categories[categoryId]
         const query = `
           SELECT * FROM quiz
-          WHERE category = 'Music'
+          WHERE category = '${category}'
           ORDER BY RANDOM()
           LIMIT 10;
         `;
@@ -37,13 +43,6 @@ router.get('/trivia', async (req, res) => {
       } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
       }
-    // try {
-    //     const response = await fetchTrivia(categoryId);
-    //     res.json(response.data.results);
-    // } catch (error) {
-    //     console.error(`All attempts failed: ${error.message}`);
-    //     res.status(500).send("Failed to fetch trivia questions");
-    // }
 });
 
 router.get('/categories', async (req, res) => {
