@@ -4,7 +4,7 @@ const session = require(`express-session`);
 
 const helmet = require(`helmet`);
 const app = express();
-let origin = undefined
+let origin = undefined;
 const { Pool } = require("pg");
 const pool = new Pool({
   host: process.env.PGHOST,
@@ -31,14 +31,14 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://quiz.matt-hall.dev'],
+    origin: ["http://localhost:3000", "https://quiz.matt-hall.dev"],
     credentials: true,
   })
 );
 
 app.use("/", function auth(req, res, next) {
   origin = req.get("origin");
-  if (process.env.APP_API_KEY !== req.get('X-API-Key')) {
+  if (process.env.APP_API_KEY !== req.get("X-API-Key")) {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
     next();
@@ -53,8 +53,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: origin === 'https://quiz.matt-hall.dev' ? "none" : "lax",
-      secure: origin === 'https://quiz.matt-hall.dev',
+      sameSite: origin === "https://quiz.matt-hall.dev" ? "none" : "lax",
+      secure: origin === "https://quiz.matt-hall.dev",
       maxAge: 300000,
     },
   })
