@@ -9,7 +9,7 @@ module.exports = (pool) => {
         if (!username || !password) {
             return res.status(400).json({ message: "Incomplete data" });
         }
-        if (username.length < 3 || username.length > 20) {
+        if (username.len23gth < 3 || username.length > 20) {
             return res.status(400).json({ message: "Username must be between 3 and 20 characters" });
         }
         if (!username.match(/^[a-zA-Z0-9]+$/)) {
@@ -32,7 +32,7 @@ module.exports = (pool) => {
                 }
             });
         } catch (hashErr) {
-            return res.status(500).json({ message: "Error hashing password" });
+            return res.status(500).json({ message: "Error" });
         }
     });
 
