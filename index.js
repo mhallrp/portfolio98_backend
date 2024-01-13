@@ -56,7 +56,7 @@ app.use(
       httpOnly: true,
       sameSite: origin === "https://quiz.matt-hall.dev" ? "none" : "lax",
       secure: origin === "https://quiz.matt-hall.dev",
-      maxAge: 300000,
+      maxAge: 3600000,
     },
   })
 );
