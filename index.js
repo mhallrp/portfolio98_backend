@@ -78,7 +78,7 @@ app.use("/", async function auth(req, res) {
       const user = results.rows[0];
       res
         .status(200)
-        .json({ username: user.username, score: user.total_score });
+        .json({ name: user.username, score: user.total_score });
     } catch (dbErr) {
       return res.status(500).json({ error: "Database error" });
     }
