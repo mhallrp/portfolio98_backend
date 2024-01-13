@@ -7,7 +7,7 @@ module.exports = (pool) => {
       const { score, name } = req.body; 
 
       await pool.query(
-        "UPDATE users SET score = $1 WHERE username = $2", [score, name]
+        "UPDATE users SET total_score = $1 WHERE username = $2", [score, name]
       );
 
       res.status(200).send("Score updated successfully.");
