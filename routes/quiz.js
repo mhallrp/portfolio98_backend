@@ -11,12 +11,12 @@ module.exports = (pool) => {
       const categories = queryResult.rows.map((row) => row.category);
       const category = categories.reverse()[categoryId];
       const query = `
-          SELECT * FROM quiz
+          SELECT question, correct_answer, correct_answers FROM quiz
           WHERE category = '${category}'
           ORDER BY RANDOM()
           LIMIT 10;
         `;
-
+          
       const { rows } = await pool.query(query);
       res.json(rows);
     } catch (error) {
