@@ -9,7 +9,7 @@ module.exports = (pool) => {
         "SELECT DISTINCT category FROM quiz"
       );
       const categories = queryResult.rows.map((row) => row.category);
-      const category = categories[categoryId];
+      const category = categories.reverse()[categoryId];
       const query = `
           SELECT * FROM quiz
           WHERE category = '${category}'
@@ -29,8 +29,7 @@ module.exports = (pool) => {
       const queryResult = await pool.query(
         "SELECT DISTINCT category FROM quiz"
       );
-      const categories = queryResult.rows.map((row, index) => ({
-        id: index,
+      const categories = queryResult.rows.map((row) => ({
         name: row.category,
       }));
       res.json(categories.reverse());
