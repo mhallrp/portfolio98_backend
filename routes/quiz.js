@@ -16,7 +16,7 @@ module.exports = (pool) => {
           ORDER BY RANDOM()
           LIMIT 10;
         `;
-          
+
       const { rows } = await pool.query(query);
       res.json(rows);
     } catch (error) {
