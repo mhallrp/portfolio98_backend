@@ -14,28 +14,16 @@ app.post("/generate-quiz", async (req, res) => {
       ? `Create three incorrect answers for the following question: "${question}"`
       : `Create a quiz question and three incorrect answers about: ${topic}`;
 
-    const response = await openai.completions.create({
-      model:"gpt-4",
-      prompt: prompt,
-      max_tokens: 150,
-    });
 
-    const responseText = response.choices[0].text.trim();
-    const parsedResponse = parseResponse(responseText, question);
+        const response = await openai.chat.completions.create({
+          messages: [{ role: "system", content: `"${prompt}"` }],
+          model: "gpt-3.5-turbo",
+        });x
 
-    res.json(parsedResponse);
+    res.json(response);
   } catch (error) {
     res.status(500).send(error);
   }
 });
-
-function parseResponse(responseText, question) {
-  const lines = responseText.split("\n").filter((line) => line.trim() !== "");
-  if (!question) {
-    question = lines.shift();
-  }
-  const answers = lines;
-  return { question, answers };
-}
 
 module.exports = app;
