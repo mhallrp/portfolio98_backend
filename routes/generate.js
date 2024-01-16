@@ -13,7 +13,7 @@ app.post("/generate-quiz", async (req, res) => {
         {
           role: "system",
           content:
-            `{Respond with a string that is delimited with the pipe character ensuring there are no spaces either side of the pipe character. The string should be made up of a question where the answer is ${topic} and 3 incorrect answers to that question (the question and all three of the answers should be delimited with the pipe character)}`,
+            `{Respond with a string that is delimited with the pipe character ensuring there are no spaces either side of the pipe character. The string should be made up of a question where the answer is ${topic} and 3 incorrect answers to that question (the question and all three of the answers should be delimited with the pipe character). Ensure that the answers are consistent with each i.e. similar wording so that the correct answer does not stand out among the incorrect answers.}`,
         },
       ],
       model: "gpt-3.5-turbo",
