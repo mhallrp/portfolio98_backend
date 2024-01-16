@@ -13,7 +13,9 @@ app.post("/generate-quiz", async (req, res) => {
         model: "gpt-4",
       });
 
-    res.json(response);
+      console.log(completion)
+
+    res.json(completion);
   } catch (error) {
     res.status(500).send(error);
   }
