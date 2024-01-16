@@ -25,7 +25,7 @@ pool.connect((err) => {
 const userRoutes = require("./routes/users")(pool);
 const quizRoutes = require(`./routes/quiz`)(pool);
 const scoreRoutes = require(`./routes/score`)(pool);
-const generateRoutes = require(`./routes/generate-quiz`);
+const generateRoutes = require(`./routes/generate`);
 
 app.use(express.json());
 
