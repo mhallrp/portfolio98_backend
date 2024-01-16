@@ -1,19 +1,25 @@
 const express = require("express");
 const app = express();
-const OpenAI = require("openai")
+const OpenAI = require("openai");
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.post("/generate-quiz", async (req, res) => {
   try {
-    const { topic, question } = req.body;
+    const { topic } = req.body;
 
     const completion = await openai.chat.completions.create({
-        messages: [{ role: "system", content: "Respond in JSON form a question associated with the string Javascript and 3 incorrect answers to that question. The question should have the key value question and the three options should be a, b, and c" }],
-        model: "gpt-3.5",
-      });
+      messages: [
+        {
+          role: "system",
+          content:
+            `{Respond with a string that is delimited with the pipe character character the string should be made up of a question associated with the string ${topic} and 3 incorrect answers to that question (the question and all three of the questions should be delimited with the pipe character)}`,
+        },
+      ],
+      model: "gpt-3.5-turbo-0613",
+    });
 
-      console.log(completion)
+    console.log(completion);
 
     res.json(completion);
   } catch (error) {
