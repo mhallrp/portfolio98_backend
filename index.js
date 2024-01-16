@@ -25,6 +25,7 @@ pool.connect((err) => {
 const userRoutes = require("./routes/users")(pool);
 const quizRoutes = require(`./routes/quiz`)(pool);
 const scoreRoutes = require(`./routes/score`)(pool);
+const generateRoutes = require(`./routes/generate-quiz`);
 
 app.use(express.json());
 
@@ -66,6 +67,8 @@ app.use("/user", userRoutes);
 app.use("/quiz", quizRoutes);
 
 app.use("/score", scoreRoutes);
+
+app.use("/generate", generateRoutes);
 
 app.use("/", async function auth(req, res) {
   if (req.session.user) {
