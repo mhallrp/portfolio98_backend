@@ -32,7 +32,6 @@ app.post("/generate-quiz", async (req, res) => {
 function parseResponse(responseText, question) {
   const lines = responseText.split("\n").filter((line) => line.trim() !== "");
   if (!question) {
-    // Assume the first line is the question if it wasn't provided
     question = lines.shift();
   }
   const answers = lines;
