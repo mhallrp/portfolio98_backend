@@ -1,24 +1,18 @@
 const express = require("express");
 const app = express();
 
-const OpenAI = require('openai');
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import OpenAI from "openai";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY});
 
 app.post("/generate-quiz", async (req, res) => {
   try {
     const { topic, question } = req.body;
 
-    let prompt = question
-      ? `Create three incorrect answers for the following question: "${question}"`
-      : `Create a quiz question and three incorrect answers about: ${topic}`;
-
-
-        const response = await openai.chat.completions.create({
-          messages: [{ role: "system", content: `"${prompt}"` }],
-          model: "gpt-3.5-turbo",
-        });x
+    const completion = await openai.chat.completions.create({
+        messages: [{ role: "system", content: "Respond in JSON form a question associated with the string Javascript and 3 incorrect answers to that question. The question should have the key value question and the three options should be a, b, and c" }],
+        model: "gpt-4",
+      });
 
     res.json(response);
   } catch (error) {
