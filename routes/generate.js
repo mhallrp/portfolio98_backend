@@ -15,7 +15,7 @@ app.post("/generate-quiz", async (req, res) => {
       : `Create a quiz question and three incorrect answers about: ${topic}`;
 
     const response = await openai.completions.create({
-      model: "text-davinci-003",
+      model:"gpt-3.5-turbo",
       prompt: prompt,
       max_tokens: 150,
     });
