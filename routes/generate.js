@@ -10,7 +10,7 @@ app.post("/generate-quiz", async (req, res) => {
 
     const completion = await openai.chat.completions.create({
         messages: [{ role: "system", content: "Respond in JSON form a question associated with the string Javascript and 3 incorrect answers to that question. The question should have the key value question and the three options should be a, b, and c" }],
-        model: "gpt-4",
+        model: "gpt-3.5",
       });
 
       console.log(completion)
