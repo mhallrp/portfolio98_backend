@@ -12,7 +12,7 @@ app.post("/generate-quiz", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Given the input "${topic}", generate a trivia question where the correct answer is "${topic}". Include three plausible but incorrect answers. Format the output as a question followed by a "|" delimited list of answers, with the correct answer (the input) being last. If there is any uncertainty about the accuracy of the information related to "${topic}", or if "${topic}" is not suitable for a trivia question, respond with "Error".`,
+          content: `Given the input "${topic}", generate a trivia question where the correct answer is "${topic}". Include three plausible but incorrect answers. Format the output as a question followed by a "|" delimited list of answers, with the correct answer (the input) being last. If there is any uncertainty about the accuracy of the information related to "${topic}", or if "${topic}" is not suitable for a trivia question, respond with "Error". "${topic} must be the correct answer to the question with confidence`,
         },
       ],
       model: "gpt-3.5-turbo",
