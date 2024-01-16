@@ -12,7 +12,8 @@ app.post("/generate-quiz", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Respond with a string that is delimited with the pipe character ensuring there are no spaces either side of the pipe character. The string should be made up of a question where the answer to the question is ${topic} and additionally 3 incorrect answers to that question (the question and all three of the answers should be delimited with the pipe character). Ensure that the answers are consistent with each i.e. similar wording so that the correct answer does not stand out among the incorrect answers. Ensure that the correct answer is always the last answer in the string. If the input answer isn't giving a strong enough question and answers or the input doesn't make sense then just respond with the word string that says 'error'. Ensure the question and the supplied answer the question was created from is absolutely correct`,
+          
+          content: `Given the input ${topic}", create a trivia question with this as the correct answer. Provide three incorrect answers and the correct answer in a format separated by "|". If the information about the input is uncertain or the input is unclear, respond with "Error".`,
         },
       ],
       model: "gpt-3.5-turbo",
