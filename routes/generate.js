@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 
-const { OpenAIApi, Configuration } = require('openai');
-const openai = new OpenAIApi(new Configuration({
+const OpenAI = require('openai');
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-}));
+});
 
 app.post("/generate-quiz", async (req, res) => {
   try {
@@ -14,13 +14,13 @@ app.post("/generate-quiz", async (req, res) => {
       ? `Create three incorrect answers for the following question: "${question}"`
       : `Create a quiz question and three incorrect answers about: ${topic}`;
 
-    const response = await openai.createCompletion({
+    const response = await openai.completions.create({
       model: "text-davinci-003",
       prompt: prompt,
       max_tokens: 150,
     });
 
-    const responseText = response.data.choices[0].text.trim();
+    const responseText = response.choices[0].text.trim();
     const parsedResponse = parseResponse(responseText, question);
 
     res.json(parsedResponse);
