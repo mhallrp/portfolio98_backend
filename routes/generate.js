@@ -17,7 +17,9 @@ app.post("/generate-quiz", async (req, res) => {
           
           "[Question],[CorrectAnswer],[IncorrectAnswer1],[IncorrectAnswer2],[IncorrectAnswer3]" 
           
-          Do not deviate from this format by adding any extra formating or information. The question should be relatively difficult. Do NOT add any carriage returns in the formatting simply follow the formatting outlined here explicitly.`
+          Do not deviate from this format by adding any extra formating or information. The question should be relatively difficult. Do NOT add any carriage returns in the formatting simply follow the formatting outlined here explicitly.
+          
+          Ensure the the returned answer after faitly similar so that the correct answer does not stand out`
           ,
         },
       ],
