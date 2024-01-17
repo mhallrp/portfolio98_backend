@@ -19,7 +19,7 @@ app.post("/generate-quiz", async (req, res) => {
           
           Do not deviate from this format by adding any extra formating or information. The question should be relatively difficult. Do NOT add any carriage returns in the formatting simply follow the formatting outlined here explicitly.
           
-          Ensure the the returned answer after faitly similar so that the correct answer does not stand out`
+          Ensure the the returned answer after faitly similar so that the correct answer does not stand out. Also ensure the answers are of the similar length and are no more than 10 words in length.`
           ,
         },
       ],
