@@ -12,9 +12,8 @@ app.post("/generate-quiz", async (req, res) => {
       messages: [
         {
           role: "system",
-          
           content: `Generate 10 trivia questions about ${topic}. For each question, provide one correct answer and three incorrect answers. Format the response as follows:
-          [Question text]|[Correct answer]|[Incorrect answer 1],[Incorrect answer 2],[Incorrect answer 3]|[Question text]|[Correct answer]|[Incorrect answer 1],[Incorrect answer 2],[Incorrect answer 3]`
+          [Question text],[Correct answer],[Incorrect answer 1],[Incorrect answer 2],[Incorrect answer 3]|[Question text],[Correct answer],[[Incorrect answer 1],[Incorrect answer 2],[Incorrect answer 3]`
           ,
         },
       ],
