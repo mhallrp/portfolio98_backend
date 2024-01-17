@@ -12,7 +12,7 @@ app.post("/generate-quiz", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Given the following string *start of string*"${answer}"*end of string* create a trivia quiestion based on this subject, refine your response based on the following context "${topic}", return 3 relevant incorrect answers to go with the question. Return all 4 values as a comma delimited string, the format of the string should be: "[Question],[CorrectAnswer],[IncorrectAnswer1],[IncorrectAnswer2],[IncorrectAnswer3]". Ensure that the returned answers are faitly similar so that the correct answer does not stand out. Also ensure the answers are of the similar length and are no more than 10 words in length.`
+          content: `Instruction: Given a string "${answer}", create a trivia question related to it. Use the context "${topic}" to refine the question. Format your response as a comma-delimited string with the question, one correct answer, and three incorrect answers. The format should be: "[Question],[CorrectAnswer],[IncorrectAnswer1],[IncorrectAnswer2],[IncorrectAnswer3]". Ensure the answers are similar in length, not exceeding 10 words, and are difficult to distinguish in terms of correctness.`
           ,
         },
       ],
