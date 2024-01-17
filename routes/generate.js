@@ -6,14 +6,13 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.post("/generate-quiz", async (req, res) => {
   try {
-    const { topic } = req.body;
+    const { topic, answer } = req.body;
 
     const completion = await openai.chat.completions.create({
       messages: [
         {
           role: "system",
-          content: `Generate 10 trivia questions about ${topic}. For each question, provide one correct answer and three incorrect answers. Format the response as follows:
-          [Question text],[Correct answer],[Incorrect answer 1],[Incorrect answer 2],[Incorrect answer 3]|[Question text],[Correct answer],[[Incorrect answer 1],[Incorrect answer 2],[Incorrect answer 3]`
+          content: `Given the following question "${topic}" and the following answer to this question "${answer}" return 3 relevant incorrect answers to this question as a comma delimited string.`
           ,
         },
       ],
