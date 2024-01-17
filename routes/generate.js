@@ -12,7 +12,7 @@ app.post("/generate-quiz", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Given the following question "${topic}" and the following answer to this question "${answer}" return 3 relevant incorrect answers to this question as a comma delimited string.`
+          content: `Given the following question *start of question*"${topic}"*end of Question* and the following answer to this question *start of answer*"${answer}"*end of answer* return 3 relevant incorrect answers to this question as a comma delimited string.`
           ,
         },
       ],
