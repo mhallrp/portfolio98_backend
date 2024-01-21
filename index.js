@@ -33,7 +33,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://quiz.matt-hall.dev"],
+    origin: ["http://localhost:3000", "https://portfolio98.matt-hall.dev"],
     credentials: true,
   })
 );
@@ -82,9 +82,7 @@ app.use("/", async function auth(req, res) {
         return res.status(404).json({ error: "User not found" });
       }
       const user = results.rows[0];
-      res
-        .status(200)
-        .json({ name: user.username, score: user.total_score });
+      res.status(200).json({ name: user.username, score: user.total_score });
     } catch (dbErr) {
       return res.status(500).json({ error: "Database error" });
     }
