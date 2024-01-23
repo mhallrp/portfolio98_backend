@@ -72,8 +72,8 @@ app.use("/score", scoreRoutes);
 
 app.use("/generate", generateRoutes);
 
-const response = (res, success, code, message, data = null) => {
-  res.status(code).json({ success, message, data });
+const response = (res, success, code, data = null) => {
+  res.status(code).json({ success, data });
 };
 
 app.use("/", async function auth(req, res) {
@@ -85,16 +85,16 @@ app.use("/", async function auth(req, res) {
         [userId]
       );
       if (results.rowCount === 0) {
-        response(res, false, 404, 'User not found');
+        response(res, false, 404, { name: "", score: 0 } );
       } else {
         const user = results.rows[0];
-        response(res, true, 200, 'User found', { name: user.username, score: user.total_score });
+        response(res, true, 200, { name: user.username, score: user.total_score });
       }
     } catch (dbErr) {
-      response(res, false, 500, 'Database error');
+      response(res, false, 500, { name: "", score: 0 } );
     }
   } else {
-    response(res, false, 403, 'Unauthorized access' + Date.now());
+    response(res, false, 403, { name: "", score: 0 } );
   }
 });
 
