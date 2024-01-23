@@ -79,15 +79,15 @@ app.use("/", async function auth(req, res) {
         [userId]
       );
       if (results.rowCount === 0) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json(false);
       }
       const user = results.rows[0];
       res.status(200).json({ name: user.username, score: user.total_score });
     } catch (dbErr) {
-      return res.status(500).json({ error: "Database error" });
+      return res.status(500).json(false);
     }
   } else {
-    res.status(403).json({ error: "No active session" });
+    res.status(403).json(false);
   }
 });
 
