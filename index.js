@@ -94,7 +94,7 @@ app.use("/", async function auth(req, res) {
       response(res, false, 500, 'Database error');
     }
   } else {
-    response(res, false, 403, 'Unauthorized access' + Date.now);
+    response(res, false, 403, 'Unauthorized access' + Date.now());
   }
 });
 
