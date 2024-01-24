@@ -66,8 +66,6 @@ app.use(
     },
   })
 );
-
-
 app.use("/user", userRoutes);
 
 app.use("/quiz", quizRoutes);
