@@ -33,7 +33,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://portfolio98.matt-hall.dev"],
+    origin: ["http://localhost:3000", "https://portfolio98.matt-hall.dev", "undefined"],
     credentials: true,
   })
 );
@@ -42,10 +42,8 @@ app.use("/", function auth(req, res, next) {
   origin = req.get("origin");
   console.log("This is the origin" + origin)
   if (process.env.APP_API_KEY !== req.get("X-API-Key")) {
-    console.log("This is the origin" + origin)
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
-    console.log("ORIGIN ALL GOOD")
     next();
   }
 });
@@ -58,8 +56,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: origin === "https://portfolio98.matt-hall.dev" ? "none" : "lax",
-      secure: origin === "https://portfolio98.matt-hall.dev",
+      sameSite: origin === "https://portfolio98.matt-hall.dev" || "undefined" ? "none" : "lax",
+      secure: origin === "https://portfolio98.matt-hall.dev" || "undefined",
       maxAge: 3600000,
     },
   })
