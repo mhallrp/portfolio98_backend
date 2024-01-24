@@ -41,8 +41,8 @@ app.use(cors({
 
 
 app.use("/", function auth(req, res, next) {
-  origin = req.get("origin");
-  console.log("This is the origin" + origin);
+  // origin = req.get("origin");
+
   if (process.env.APP_API_KEY !== req.get("X-API-Key")) {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
@@ -57,9 +57,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: "lax",
       maxAge: 3600000,
     },
   })
