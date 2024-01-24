@@ -31,12 +31,14 @@ app.use(express.json());
 
 app.use(helmet());
 
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    return callback(null, origin);
+  },
+  credentials: true
+}));
+
 
 app.use("/", function auth(req, res, next) {
   origin = req.get("origin");
