@@ -55,13 +55,7 @@ module.exports = (pool) => {
         if (!validPassword)
           return res.status(401).json({ message: "Invalid credentials" });
         req.session.user = { id: user.id, username: user.username };
-        return res
-          .status(200)
-          .json({
-            message: "Login successful",
-            name: user.username,
-            score: user.total_score,
-          });
+        return res.status(200).json({message: "Login successful",name: user.username,score: user.total_score,});
       }
     );
   });
