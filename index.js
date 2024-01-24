@@ -33,14 +33,18 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://portfolio98.matt-hall.dev", "undefined"],
+    origin: [
+      "http://localhost:3000",
+      "https://portfolio98.matt-hall.dev",
+      "undefined",
+    ],
     credentials: true,
   })
 );
 
 app.use("/", function auth(req, res, next) {
   origin = req.get("origin");
-  console.log("This is the origin" + origin)
+  console.log("This is the origin" + origin);
   if (process.env.APP_API_KEY !== req.get("X-API-Key")) {
     return res.status(403).json({ error: "Forbidden origin" });
   } else {
@@ -56,8 +60,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: origin === "https://portfolio98.matt-hall.dev" || "undefined" ? "none" : "lax",
-      secure: origin === "https://portfolio98.matt-hall.dev" || "undefined",
+      sameSite: "none",
+      secure: true,
       maxAge: 3600000,
     },
   })
@@ -84,16 +88,19 @@ app.use("/", async function auth(req, res) {
         [userId]
       );
       if (results.rowCount === 0) {
-        response(res, false, 404, { name: "", score: 0 } );
+        response(res, false, 404, { name: "", score: 0 });
       } else {
         const user = results.rows[0];
-        response(res, true, 200, { name: user.username, score: user.total_score });
+        response(res, true, 200, {
+          name: user.username,
+          score: user.total_score,
+        });
       }
     } catch (dbErr) {
-      response(res, false, 500, { name: "", score: 0 } );
+      response(res, false, 500, { name: "", score: 0 });
     }
   } else {
-    response(res, false, 403, { name: "", score: 0 } );
+    response(res, false, 403, { name: "", score: 0 });
   }
 });
 
