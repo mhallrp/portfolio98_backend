@@ -33,11 +33,6 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://portfolio98.matt-hall.dev",
-      "undefined",
-    ],
     credentials: true,
   })
 );
@@ -66,6 +61,7 @@ app.use(
     },
   })
 );
+
 app.use("/user", userRoutes);
 
 app.use("/quiz", quizRoutes);
