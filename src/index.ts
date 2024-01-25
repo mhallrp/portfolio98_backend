@@ -1,17 +1,18 @@
-const express = require(`express`);
-const cors = require(`cors`);
-const session = require(`express-session`);
+import express from 'express';
+import cors from 'cors';
+import session from 'express-session';
+import { Request, Response, NextFunction } from 'express';
+import helmet from 'helmet';
+import { Pool } from 'pg';
 
-const helmet = require(`helmet`);
 const app = express();
-let origin = undefined;
-const { Pool } = require("pg");
+
 const pool = new Pool({
   host: process.env.PGHOST,
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
   database: process.env.PGDATABASE,
-  port: process.env.PGPORT,
+  port: process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : undefined,
 });
 
 pool.connect((err) => {
@@ -32,19 +33,14 @@ app.use(express.json());
 app.use(helmet());
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    return callback(null, origin);
-  },
+  origin: ["https://portfolio98.matt-hall.dev", "http://localhost:3000"],
   credentials: true
 }));
 
 
-app.use("/", function auth(req, res, next) {
-  // origin = req.get("origin");
-
+app.use("/", function auth(req:Request, res:Response, next:NextFunction) {
   if (process.env.APP_API_KEY !== req.get("X-API-Key")) {
-    return res.status(403).json({ error: "Forbidden origin" });
+    return res.status(403).json({ error: "Forbidden" });
   } else {
     next();
   }
@@ -52,7 +48,7 @@ app.use("/", function auth(req, res, next) {
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET as string,
     proxy: true,
     resave: true,
     saveUninitialized: true,
@@ -73,11 +69,16 @@ app.use("/score", scoreRoutes);
 
 app.use("/generate", generateRoutes);
 
-const response = (res, success, code, data = null) => {
+interface UserData{
+  name:string;
+  score:number;
+}
+
+const response = (res:Response, success:boolean, code:number, data:UserData) => {
   res.status(code).json({ success, data });
 };
 
-app.use("/", async function auth(req, res) {
+app.use("/", async function auth(req:Request, res) {
   if (req.session.user) {
     const userId = req.session.user.id;
     try {
