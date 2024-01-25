@@ -1,8 +1,10 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcryptjs");
+import { Router } from "express";
+import { Pool } from "pg";
+import bcrypt from "bcryptjs";
 
-module.exports = (pool) => {
+const router = Router();
+
+module.exports = (pool: Pool) => {
   router.post("/register", async (req, res) => {
     const { username, password } = req.body.user;
     try {
@@ -55,7 +57,13 @@ module.exports = (pool) => {
         if (!validPassword)
           return res.status(401).json({ message: "Invalid credentials" });
         req.session.user = { id: user.id, username: user.username };
-        return res.status(200).json({message: "Login successful",name: user.username,score: user.total_score,});
+        return res
+          .status(200)
+          .json({
+            message: "Login successful",
+            name: user.username,
+            score: user.total_score,
+          });
       }
     );
   });

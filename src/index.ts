@@ -1,7 +1,6 @@
-import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
-import { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { Pool } from 'pg';
 
