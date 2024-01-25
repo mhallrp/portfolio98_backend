@@ -1,7 +1,9 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+import { Pool } from "pg";
 
-module.exports = (pool) => {
+const router = Router();
+
+module.exports = (pool: Pool) => {
   router.post("/setscore", async (req, res) => {
     try {
       const { score, name } = req.body;
