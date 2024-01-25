@@ -1,15 +1,19 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+import { Pool } from "pg";
 
-module.exports = (pool) => {
+const router = Router();
+
+module.exports = (pool:Pool) => {
   router.get("/trivia", async (req, res) => {
-    const categoryId = req.query.category;
+    const categoryIdString = req.query.category as string | undefined;
+    const categoryId = categoryIdString !== undefined ? parseInt(categoryIdString, 10) : undefined;
     try {
       const queryResult = await pool.query(
         "SELECT DISTINCT category FROM quiz"
       );
       const categories = queryResult.rows.map((row) => row.category);
-      const category = categories.reverse()[categoryId];
+
+      const category = categories.reverse()[categoryId!];
       const query = `
           SELECT question, correct_answer, incorrect_answers FROM quiz
           WHERE category = '${category}'
